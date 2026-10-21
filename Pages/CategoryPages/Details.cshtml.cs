@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Vasilca_Robert_Lab2.Models;
 
-namespace Vasilca_Robert_Lab2.Pages.BookPages;
+namespace Vasilca_Robert_Lab2.Pages.CategoryPages;
 
 public class DetailsModel : PageModel
 {
@@ -13,7 +13,7 @@ public class DetailsModel : PageModel
         _context = context;
     }
 
-    public Book Book { get; set; } = default!;
+    public Category Category { get; set; } = default!;
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -22,17 +22,14 @@ public class DetailsModel : PageModel
             return NotFound();
         }
 
-        var book = await _context.Book
-            .Include(b => b.Author)
-            .Include(b => b.Publisher)
-            .FirstOrDefaultAsync(m => m.ID == id);
-        if (book is null)
+        var category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
+        if (category is null)
         {
             return NotFound();
         }
         else
         {
-            Book = book;
+            Category = category;
         }
 
         return Page();

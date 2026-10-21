@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vasilca_Robert_Lab2.Models;
 
-namespace Vasilca_Robert_Lab2.Pages.BookPages;
+namespace Vasilca_Robert_Lab2.Pages.CategoryPages;
 
 public class EditModel : PageModel
 {
@@ -16,7 +15,7 @@ public class EditModel : PageModel
     }
 
     [BindProperty]
-    public Book Book { get; set; } = default!;
+    public Category Category { get; set; } = default!;
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -25,14 +24,12 @@ public class EditModel : PageModel
             return NotFound();
         }
 
-        var book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-        if (book is null)
+        var category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
+        if (category is null)
         {
             return NotFound();
         }
-        Book = book;
-        ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID", "PublisherName");
-        ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "FullName");
+        Category = category;
         return Page();
     }
 
@@ -45,7 +42,7 @@ public class EditModel : PageModel
             return Page();
         }
 
-        _context.Attach(Book).State = EntityState.Modified;
+        _context.Attach(Category).State = EntityState.Modified;
 
         try
         {
@@ -53,7 +50,7 @@ public class EditModel : PageModel
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!BookExists(Book.ID))
+            if (!CategoryExists(Category.ID))
             {
                 return NotFound();
             }
@@ -66,8 +63,8 @@ public class EditModel : PageModel
         return RedirectToPage("./Index");
     }
 
-    private bool BookExists(int id)
+    private bool CategoryExists(int id)
     {
-        return _context.Book.Any(e => e.ID == id);
+        return _context.Category.Any(e => e.ID == id);
     }
 }
