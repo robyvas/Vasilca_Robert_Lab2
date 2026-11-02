@@ -1,4 +1,5 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Vasilca_Robert_Lab2.Models;
 
 public class Vasilca_Robert_Lab2Context(DbContextOptions<Vasilca_Robert_Lab2Context> options) : DbContext(options)
 {
@@ -6,5 +7,7 @@ public class Vasilca_Robert_Lab2Context(DbContextOptions<Vasilca_Robert_Lab2Cont
     public DbSet<Vasilca_Robert_Lab2.Models.Publisher> Publisher { get; set; } = default!;
     public DbSet<Vasilca_Robert_Lab2.Models.Author> Author { get; set; } = default!;
     public DbSet<Vasilca_Robert_Lab2.Models.Category> Category { get; set; } = default!;
+    public DbSet<Vasilca_Robert_Lab2.Models.Member> Member { get; set; } = default!;
+    public DbSet<Vasilca_Robert_Lab2.Models.Borrowing> Borrowing { get; set; } = default!;
 
 }
