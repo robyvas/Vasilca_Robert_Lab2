@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Vasilca_Robert_Lab2.Models;
 
 namespace Vasilca_Robert_Lab2.Pages.BookPages;
 
+[Authorize(Roles = "Admin")]
 public class CreateModel : BookCategoriesPageModel
 {
     private readonly Vasilca_Robert_Lab2Context _context;
@@ -45,6 +47,15 @@ public class CreateModel : BookCategoriesPageModel
                 newBook.BookCategories.Add(catToAdd);
             }
         }
+        if (!ModelState.IsValid)
+        {
+            ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID", "PublisherName");
+            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "FullName");
+            newBook.BookCategories ??= new List<BookCategory>();
+            PopulateAssignedCategoryData(_context, newBook);
+            return Page();
+        }
+
         Book.BookCategories = newBook.BookCategories;
         _context.Book.Add(Book);
         await _context.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Vasilca_Robert_Lab2.Models;
 
 namespace Vasilca_Robert_Lab2.Pages.BookPages;
 
+[Authorize(Roles = "Admin")]
 public class EditModel : BookCategoriesPageModel
 {
     private readonly Vasilca_Robert_Lab2Context _context;
